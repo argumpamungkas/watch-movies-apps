@@ -65,4 +65,8 @@ class AdapterListLinear(
         listItem.addAll(item)
         notifyDataSetChanged()
     }
+
+    fun clear() {
+        listItem.clear()
+    }
 }

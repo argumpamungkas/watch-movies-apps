@@ -38,37 +38,46 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapterSearch = AdapterListLinear(arrayListOf(), object: AdapterListLinear.OnAdapterListener{
-            override fun onClick(item: ItemMovieSearchModel) {
-                showMessage(item.title)
-            }
-        })
+        val adapterSearch =
+            AdapterListLinear(arrayListOf(), object : AdapterListLinear.OnAdapterListener {
+                override fun onClick(item: ItemMovieSearchModel) {
+                    showMessage(item.title)
+                }
+            })
 
         binding.rvSearchListMovie.adapter = adapterSearch
-        viewModel.listUser.observe(viewLifecycleOwner){
+        viewModel.listUser.observe(viewLifecycleOwner) {
             if (it.results.isNotEmpty()) adapterSearch.setItemMovie(it.results)
         }
 
-        viewModel.loading.observe(viewLifecycleOwner){
+        viewModel.loading.observe(viewLifecycleOwner) {
             showLoading(it)
         }
 
         binding.searchView.setOnQueryTextListener(object : OnQueryTextListener,
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.fetchSearchMovie(query.toString())
+                if (query.isNullOrEmpty()) {
+                    adapterSearch.clear()
+                } else {
+                    viewModel.fetchSearchMovie(query.toString())
+                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.fetchSearchMovie(newText.toString())
+                if (newText.isNullOrEmpty()) {
+                    adapterSearch.clear()
+                } else {
+                    viewModel.fetchSearchMovie(newText.toString())
+                }
                 return false
             }
 
         })
     }
 
-    private fun showMessage(msg: String){
+    private fun showMessage(msg: String) {
         Toast.makeText(view?.context, msg, Toast.LENGTH_SHORT).show()
     }
 
