@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Movies App</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_bookmark">Bookmark</string>
+    <string name="logo">logo</string>
+    <string name="watch_mtv">Watch MTv</string>
+    <string name="title_movie">Title Movie</string>
+    <string name="movie_popular">Movie Popular</string>
+    <string name="title">Title</string>
+    <string name="see_all"><![CDATA[See All >>]]></string>
+    <string name="movie_top_rated">Movie Top Rated</string>
+    <string name="movie_now_playing">Movie Now Playing</string>
+    <string name="movie_upcoming">Movie Upcoming</string>
+    <string name="tv_show">TV Show</string>
+    <string name="tv_airing_today">TV Airing Today</string>
+    <string name="tv_popular">TV Popular</string>
+    <string name="tv_top_rated">TV Top Rated</string>
+    <string name="action">Action</string>
+    <string name="movie_genre">Movie Genre</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_7_4">7.4</string>
+    <string name="action_adventures">Action, Adventures</string>
+</resources>

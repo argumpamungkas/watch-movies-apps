@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:backgroundTint="@color/grey_loading"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_loading"
+        android:orientation="vertical"
+        android:paddingBottom="5dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="120dp"
+            android:layout_height="180dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:backgroundTint="@color/grey_loading">
+
+            <ImageView
+                android:id="@+id/iv_poster_portrait"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/grey_loading"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tv_title_item"
+            style="@style/font_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="5dp"
+            android:maxLines="1"
+            tools:text="@string/title"
+            android:textSize="10sp"
+            android:textColor="@color/grey_loading"
+            android:background="@color/grey_loading"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_poster_portrait"
+            tools:ignore="SmallSp" />
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
