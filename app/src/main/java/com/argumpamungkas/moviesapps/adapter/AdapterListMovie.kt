@@ -13,6 +13,7 @@ class AdapterListMovie(
     private val listItem: ArrayList<ItemMovieModel>,
     private val listener: OnAdapterListener
 ) : RecyclerView.Adapter<AdapterListMovie.ViewHolder>() {
+
     class ViewHolder(val binding: LayoutItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

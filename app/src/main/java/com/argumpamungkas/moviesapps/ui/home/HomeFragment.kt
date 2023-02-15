@@ -1,5 +1,6 @@
 package com.argumpamungkas.moviesapps.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,9 @@ import com.argumpamungkas.moviesapps.R
 import com.argumpamungkas.moviesapps.adapter.AdapterListMovie
 import com.argumpamungkas.moviesapps.databinding.CustomToolbarBinding
 import com.argumpamungkas.moviesapps.databinding.FragmentHomeBinding
+import com.argumpamungkas.moviesapps.model.Constant
 import com.argumpamungkas.moviesapps.model.ItemMovieModel
+import com.argumpamungkas.moviesapps.ui.moviescategory.MoviesCategoryActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -92,11 +95,15 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (it.results.isNotEmpty()) adapterNowPlaying.setItem(it.results)
         }
 
-        binding.seeAllUpcoming.setOnClickListener(this)
 
         viewModel.loading.observe(viewLifecycleOwner) {
             showShimmer(it)
         }
+
+        binding.seeAllUpcoming.setOnClickListener(this)
+        binding.seeAllPopular.setOnClickListener(this)
+        binding.seeAllTopRated.setOnClickListener(this)
+        binding.seeAllNowPlaying.setOnClickListener(this)
     }
 
     private fun showMessage(msg: String) {
@@ -126,10 +133,26 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.see_all_upcoming -> {}
-            R.id.see_all_popular -> {}
-            R.id.see_all_top_rated -> {}
-            R.id.see_all_now_playing -> {}
+            R.id.see_all_upcoming -> {
+                startActivity(Intent(view?.context, MoviesCategoryActivity::class.java)
+                    .putExtra(Constant.MOVIES_CATEGORY, getString(R.string.movie_upcoming))
+                )
+            }
+            R.id.see_all_popular -> {
+                startActivity(Intent(view?.context, MoviesCategoryActivity::class.java)
+                    .putExtra(Constant.MOVIES_CATEGORY, getString(R.string.movie_popular))
+                )
+            }
+            R.id.see_all_top_rated -> {
+                startActivity(Intent(view?.context, MoviesCategoryActivity::class.java)
+                    .putExtra(Constant.MOVIES_CATEGORY, getString(R.string.movie_top_rated))
+                )
+            }
+            R.id.see_all_now_playing -> {
+                startActivity(Intent(view?.context, MoviesCategoryActivity::class.java)
+                    .putExtra(Constant.MOVIES_CATEGORY, getString(R.string.movie_now_playing))
+                )
+            }
         }
     }
 }

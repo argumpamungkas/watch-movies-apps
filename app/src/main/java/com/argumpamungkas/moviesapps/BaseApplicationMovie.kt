@@ -9,6 +9,8 @@ import com.argumpamungkas.moviesapps.ui.bookmark.moduleBookmarkViewModel
 import com.argumpamungkas.moviesapps.ui.home.moduleHomeFragment
 import com.argumpamungkas.moviesapps.ui.home.moduleHomeViewModel
 import com.argumpamungkas.moviesapps.ui.moduleSplashScreenActivity
+import com.argumpamungkas.moviesapps.ui.moviescategory.moduleMoviesCategory
+import com.argumpamungkas.moviesapps.ui.moviescategory.moduleMoviesCategoryViewModel
 import com.argumpamungkas.moviesapps.ui.search.moduleSearchFragment
 import com.argumpamungkas.moviesapps.ui.search.moduleSearchViewModel
 import org.koin.android.ext.koin.androidContext
@@ -32,7 +34,9 @@ class BaseApplicationMovie: Application() {
                 moduleSearchViewModel,
                 moduleSearchFragment,
                 moduleBookmarkViewModel,
-                moduleBookmarkFragment
+                moduleBookmarkFragment,
+                moduleMoviesCategory,
+                moduleMoviesCategoryViewModel
             )
 
         }

@@ -1,4 +1,4 @@
-package com.argumpamungkas.moviesapps.ui.home
+package com.argumpamungkas.moviesapps.ui.moviescategory
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,15 +10,13 @@ import com.argumpamungkas.moviesapps.network.RepositoryMovie
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
 
-val moduleHomeViewModel = module {
-    factory { HomeViewModel(get()) }
+val moduleMoviesCategoryViewModel = module {
+    factory { MoviesCategoryViewModel(get()) }
 }
 
-class HomeViewModel(
-    private val repositoryMovie: RepositoryMovie
-) : ViewModel() {
-
-    val titleToolbar = "Watch Movies"
+class MoviesCategoryViewModel(
+    val repositoryMovie: RepositoryMovie
+): ViewModel() {
 
     private val _listMovieUpcoming = MutableLiveData<ItemMovieResponse>()
     val listMovieUpcoming : LiveData<ItemMovieResponse> = _listMovieUpcoming
@@ -35,25 +33,56 @@ class HomeViewModel(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
-    init {
-        fetchMovies()
-    }
-
-    private fun fetchMovies(){
+    fun fetchMovieUpcoming(){
         _loading.value = true
         viewModelScope.launch {
             try {
                 _listMovieUpcoming.value = repositoryMovie.fetchMoviesUpcoming(BuildConfig.API_KEY, 1)
-                _listMoviePopular.value = repositoryMovie.fetchMoviesPopular(BuildConfig.API_KEY, 1)
-                _listMovieTopRated.value = repositoryMovie.fetchMoviesTopRated(BuildConfig.API_KEY, 1)
-                _listMovieNowPlaying.value = repositoryMovie.fetchMoviesNowPlaying(BuildConfig.API_KEY, 1)
                 _loading.value = false
-            } catch (e: Exception) {
-                e.message
+            }catch (e:Exception){
+                e.printStackTrace()
                 _loading.value = false
             }
         }
     }
 
+    fun fetchMoviePopular(){
+        _loading.value = true
+        viewModelScope.launch {
+            try {
+                _listMoviePopular.value = repositoryMovie.fetchMoviesPopular(BuildConfig.API_KEY, 1)
+                _loading.value = false
+            }catch (e:Exception){
+                e.printStackTrace()
+                _loading.value = false
+            }
+        }
+    }
+
+    fun fetchMovieTopRated(){
+        _loading.value = true
+        viewModelScope.launch {
+            try {
+                _listMovieTopRated.value = repositoryMovie.fetchMoviesTopRated(BuildConfig.API_KEY, 1)
+                _loading.value = false
+            }catch (e:Exception){
+                e.printStackTrace()
+                _loading.value = false
+            }
+        }
+    }
+
+    fun fetchMovieNowPlaying(){
+        _loading.value = true
+        viewModelScope.launch {
+            try {
+                _listMovieNowPlaying.value = repositoryMovie.fetchMoviesNowPlaying(BuildConfig.API_KEY, 1)
+                _loading.value = false
+            }catch (e:Exception){
+                e.printStackTrace()
+                _loading.value = false
+            }
+        }
+    }
 
 }

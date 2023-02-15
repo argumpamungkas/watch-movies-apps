@@ -7,7 +7,10 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:background="@color/grey_loading"
         android:id="@+id/iv_poster"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:layout_width="85dp"
         android:layout_marginHorizontal="5dp"
         android:layout_height="120dp"
