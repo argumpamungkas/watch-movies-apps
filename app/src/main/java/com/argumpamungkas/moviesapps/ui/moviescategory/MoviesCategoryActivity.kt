@@ -78,7 +78,7 @@ class MoviesCategoryActivity : AppCompatActivity() {
             arrayListOf(),
             object : AdapterListMoviesCategory.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    moveDetail(item.id)
+                    moveDetail(item.id, item.title)
                 }
             })
         binding.rvListMovieCategoryDetail.adapter = adapter
@@ -102,9 +102,11 @@ class MoviesCategoryActivity : AppCompatActivity() {
 
     }
 
-    private fun moveDetail(movieId: Int) {
+    private fun moveDetail(movieId: Int, movieTitle: String) {
         sharedPref.putMovieId(Constant.MOVIE_ID, movieId)
-        startActivity(Intent(this, DetailMovieActivity::class.java))
+        startActivity(Intent(this, DetailMovieActivity::class.java)
+            .putExtra(Constant.MOVIE_TITLE, movieTitle)
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {

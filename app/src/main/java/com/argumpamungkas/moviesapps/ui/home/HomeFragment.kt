@@ -16,8 +16,6 @@ import com.argumpamungkas.moviesapps.model.Constant
 import com.argumpamungkas.moviesapps.model.ItemMovieModel
 import com.argumpamungkas.moviesapps.persistence.SharedPreferences
 import com.argumpamungkas.moviesapps.ui.detail.DetailMovieActivity
-import com.argumpamungkas.moviesapps.ui.detail.overview.OverviewFragment
-import com.argumpamungkas.moviesapps.ui.detail.trailer.TrailerFragment
 import com.argumpamungkas.moviesapps.ui.moviescategory.MoviesCategoryActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -73,7 +71,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val adapterUpcoming =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    moveDetail(item.id)
+                    moveDetail(item.id, item.title)
                 }
             })
 
@@ -86,7 +84,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val adapterPopular =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    moveDetail(item.id)
+                    moveDetail(item.id, item.title)
                 }
             })
 
@@ -99,7 +97,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val adapterTopRated =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    moveDetail(item.id)
+                    moveDetail(item.id, item.title)
                 }
             })
 
@@ -112,7 +110,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val adapterNowPlaying =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    moveDetail(item.id)
+                    moveDetail(item.id, item.title)
                 }
             })
 
@@ -122,9 +120,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun moveDetail(movieId: Int){
+    private fun moveDetail(movieId: Int, movieTitle: String){
         sharedPref.putMovieId(Constant.MOVIE_ID, movieId)
-        startActivity(Intent(requireContext(), DetailMovieActivity::class.java))
+        startActivity(Intent(requireContext(), DetailMovieActivity::class.java)
+            .putExtra(Constant.MOVIE_TITLE, movieTitle)
+        )
     }
 
     private fun showMessage(msg: String) {

@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.argumpamungkas.moviesapps.ui.detail.overview.OverviewFragment
-import com.argumpamungkas.moviesapps.ui.detail.trailer.TrailerFragment
+import com.argumpamungkas.moviesapps.ui.detail.videos.VideosFragment
 
 class SectionPagerAdapter(activity:AppCompatActivity): FragmentStateAdapter(activity) {
     override fun getItemCount() = 2
@@ -13,7 +13,7 @@ class SectionPagerAdapter(activity:AppCompatActivity): FragmentStateAdapter(acti
         var fragment: Fragment? = null
         when (position){
             0 -> fragment = OverviewFragment()
-            1 -> fragment = TrailerFragment()
+            1 -> fragment = VideosFragment()
         }
         return fragment as Fragment
     }

@@ -23,6 +23,7 @@ class DetailMovieActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailMovieBinding
     private lateinit var bindingToolbar: ToolbarDetailBinding
     private val viewModel: DetailMovieViewModel by viewModel()
+    private val movieTitle by lazy { intent.getStringExtra(Constant.MOVIE_TITLE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,11 @@ class DetailMovieActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(bindingToolbar.toolbarDetail)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            title = bindingToolbar.tvTitleToolbar.text
+            setDisplayHomeAsUpEnabled(true)
+        }
+        bindingToolbar.tvTitleToolbar.text = movieTitle
 
         sectionPager()
     }
@@ -48,11 +53,6 @@ class DetailMovieActivity : AppCompatActivity() {
             binding.tvReleaseDate.text = justYear(it.release_date)
             binding.tvVote.text = voteFormat(it.vote_average)
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-
     }
 
     private fun sectionPager(){

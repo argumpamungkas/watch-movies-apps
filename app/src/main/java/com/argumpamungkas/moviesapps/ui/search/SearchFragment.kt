@@ -47,7 +47,7 @@ class SearchFragment : Fragment() {
         val adapterSearch =
             AdapterListLinear(arrayListOf(), object : AdapterListLinear.OnAdapterListener {
                 override fun onClick(item: ItemMovieSearchModel) {
-                    moveDetail(item.id)
+                    moveDetail(item.id, item.title)
                 }
             })
 
@@ -83,9 +83,11 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun moveDetail(movieId: Int){
+    private fun moveDetail(movieId: Int, movieTitle: String){
         sharedPref.putMovieId(Constant.MOVIE_ID, movieId)
-        startActivity(Intent(requireContext(), DetailMovieActivity::class.java))
+        startActivity(Intent(requireContext(), DetailMovieActivity::class.java)
+            .putExtra(Constant.MOVIE_TITLE, movieTitle)
+        )
     }
 
     private fun showLoading(loading: Boolean) {

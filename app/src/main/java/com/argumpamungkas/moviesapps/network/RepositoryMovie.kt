@@ -3,6 +3,7 @@ package com.argumpamungkas.moviesapps.network
 import com.argumpamungkas.moviesapps.model.ItemMovieDetailResponse
 import com.argumpamungkas.moviesapps.model.ItemMovieResponse
 import com.argumpamungkas.moviesapps.model.ItemMovieSearchResponse
+import com.argumpamungkas.moviesapps.model.VideosMovieResponse
 import org.koin.dsl.module
 
 val moduleRepository = module {
@@ -54,6 +55,13 @@ class RepositoryMovie(
         api_key: String
     ): ItemMovieDetailResponse {
         return api.getMovieDetail(movie_id, api_key)
+    }
+
+    suspend fun fetchVideosMovie(
+        movie_id: Int,
+        api_key: String
+    ): VideosMovieResponse {
+        return api.getVideosMovie(movie_id, api_key)
     }
 
 }

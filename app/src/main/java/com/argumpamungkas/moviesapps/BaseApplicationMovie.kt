@@ -10,6 +10,9 @@ import com.argumpamungkas.moviesapps.ui.detail.moduleDetailMovieActivity
 import com.argumpamungkas.moviesapps.ui.detail.moduleDetailMovieViewModel
 import com.argumpamungkas.moviesapps.ui.detail.overview.moduleOverviewFragment
 import com.argumpamungkas.moviesapps.ui.detail.overview.moduleOverviewViewModel
+import com.argumpamungkas.moviesapps.ui.detail.videos.modulePlayVideoMovie
+import com.argumpamungkas.moviesapps.ui.detail.videos.moduleVideosFragment
+import com.argumpamungkas.moviesapps.ui.detail.videos.moduleVideosViewModel
 import com.argumpamungkas.moviesapps.ui.home.moduleHomeFragment
 import com.argumpamungkas.moviesapps.ui.home.moduleHomeViewModel
 import com.argumpamungkas.moviesapps.ui.moduleSplashScreenActivity
@@ -44,7 +47,10 @@ class BaseApplicationMovie: Application() {
                 moduleDetailMovieActivity,
                 moduleDetailMovieViewModel,
                 moduleOverviewFragment,
-                moduleOverviewViewModel
+                moduleOverviewViewModel,
+                moduleVideosFragment,
+                moduleVideosViewModel,
+                modulePlayVideoMovie
             )
 
         }
