@@ -7,11 +7,12 @@ import com.argumpamungkas.moviesapps.model.VideosMovieResponse
 import org.koin.dsl.module
 
 val moduleRepository = module {
-    factory { RepositoryMovie(get()) }
+    factory { RepositoryMovie(get(), get()) }
 }
 
 class RepositoryMovie(
-    private val api: ApiEndpoint
+    private val api: ApiEndpoint,
+    val db: DatabaseDao
 ) {
 
     suspend fun fetchMoviesUpcoming(
@@ -63,5 +64,9 @@ class RepositoryMovie(
     ): VideosMovieResponse {
         return api.getVideosMovie(movie_id, api_key)
     }
+
+    suspend fun findMovie(movie: ItemMovieDetailResponse): Int = db.findMovie(movie.id)
+    suspend fun addMovie(movie: ItemMovieDetailResponse) = db.addMovie(movie)
+    suspend fun removeMovie(movie: ItemMovieDetailResponse) = db.removeMovie(movie)
 
 }

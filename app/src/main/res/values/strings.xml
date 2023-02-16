@@ -2,7 +2,7 @@
     <string name="app_name">Movies App</string>
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
-    <string name="title_bookmark">Bookmark</string>
+    <string name="title_favorite">Favorite</string>
     <string name="logo">logo</string>
     <string name="watch_mtv">Watch MTv</string>
     <string name="title_movie">Title Movie</string>
@@ -33,4 +33,5 @@
     <string name="craig_mazin">Craig Mazin</string>
     <string name="production">Production</string>
     <string name="not_have_trailer_or_others">Not have video Trailer or Others</string>
+    <string name="no_favorites_movies">No Favorites Movies</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.argumpamungkas.moviesapps.ui.detail
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.argumpamungkas.moviesapps.R
 import com.argumpamungkas.moviesapps.adapter.SectionPagerAdapter
 import com.argumpamungkas.moviesapps.databinding.ActivityDetailMovieBinding
 import com.argumpamungkas.moviesapps.databinding.ToolbarDetailBinding
@@ -43,15 +45,35 @@ class DetailMovieActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.movieDetail.observe(this){
-            imageFormat(it.backdrop_path, binding.ivBackdrop)
-            imageFormat(it.poster_path, binding.ivPoster)
+        viewModel.movieDetail.observe(this){ movie ->
+            viewModel.find(movie)
+            imageFormat(movie.backdrop_path, binding.ivBackdrop)
+            imageFormat(movie.poster_path, binding.ivPoster)
 
-            binding.tvTitle.text = it.title
+            binding.tvTitle.text = movie.title
 
-            binding.tvRuntime.text = runtimeFormat(it.runtime)
-            binding.tvReleaseDate.text = justYear(it.release_date)
-            binding.tvVote.text = voteFormat(it.vote_average)
+            binding.tvRuntime.text = runtimeFormat(movie.runtime)
+            binding.tvReleaseDate.text = justYear(movie.release_date)
+            binding.tvVote.text = voteFormat(movie.vote_average)
+
+            binding.btnFavorite.setOnClickListener {
+                viewModel.favorite(movie)
+
+                if(viewModel.isFavorite.value == 0){
+                    showMessage("Add Favorite")
+                } else {
+                    showMessage("Un favorite")
+                }
+            }
+        }
+
+        viewModel.isFavorite.observe(this){
+            if (it == 0){
+                binding.btnFavorite.setImageResource(R.drawable.ic_unfavorite)
+            } else {
+                binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+            }
+            return@observe
         }
     }
 
@@ -69,5 +91,9 @@ class DetailMovieActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return super.onSupportNavigateUp()
+    }
+
+    private fun showMessage(msg: String){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }

@@ -4,8 +4,9 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.argumpamungkas.moviesapps.network.moduleNetwork
 import com.argumpamungkas.moviesapps.network.moduleRepository
-import com.argumpamungkas.moviesapps.ui.bookmark.moduleBookmarkFragment
-import com.argumpamungkas.moviesapps.ui.bookmark.moduleBookmarkViewModel
+import com.argumpamungkas.moviesapps.persistence.moduleDatabase
+import com.argumpamungkas.moviesapps.ui.favorite.moduleFavoriteFragment
+import com.argumpamungkas.moviesapps.ui.favorite.moduleFavoriteViewModel
 import com.argumpamungkas.moviesapps.ui.detail.moduleDetailMovieActivity
 import com.argumpamungkas.moviesapps.ui.detail.moduleDetailMovieViewModel
 import com.argumpamungkas.moviesapps.ui.detail.overview.moduleOverviewFragment
@@ -35,13 +36,14 @@ class BaseApplicationMovie: Application() {
             modules(
                 moduleNetwork,
                 moduleRepository,
+                moduleDatabase,
                 moduleSplashScreenActivity,
                 moduleHomeViewModel,
                 moduleHomeFragment,
                 moduleSearchViewModel,
                 moduleSearchFragment,
-                moduleBookmarkViewModel,
-                moduleBookmarkFragment,
+                moduleFavoriteViewModel,
+                moduleFavoriteFragment,
                 moduleMoviesCategory,
                 moduleMoviesCategoryViewModel,
                 moduleDetailMovieActivity,

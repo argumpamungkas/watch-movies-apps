@@ -15,8 +15,8 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/nav_bookmark"
-        android:name="com.argumpamungkas.moviesapps.ui.bookmark.BookmarkFragment"
-        android:label="fragment_bookmark"
-        tools:layout="@layout/fragment_bookmark" />
+        android:id="@+id/nav_favorite"
+        android:name="com.argumpamungkas.moviesapps.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
 </navigation>
