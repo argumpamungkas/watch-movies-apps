@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.argumpamungkas.moviesapps.databinding.ItemMoviesCategoryBinding
 import com.argumpamungkas.moviesapps.model.Constant
 import com.argumpamungkas.moviesapps.model.ItemMovieModel
+import com.argumpamungkas.moviesapps.util.imageFormat
 import com.argumpamungkas.moviesapps.util.shimmer
 import com.bumptech.glide.Glide
 
@@ -23,12 +24,7 @@ class AdapterListMoviesCategory(
         val item = listItem[position]
         holder.binding.tvTitle.text = item.title
 
-        val poster = Constant.POSTER_PATH + item.poster_path
-
-        Glide.with(holder.binding.ivPoster)
-            .load(poster)
-            .placeholder(shimmer())
-            .into(holder.binding.ivPoster)
+        imageFormat(item.poster_path, holder.binding.ivPoster)
 
         holder.itemView.setOnClickListener {
             listener.onClick(item)

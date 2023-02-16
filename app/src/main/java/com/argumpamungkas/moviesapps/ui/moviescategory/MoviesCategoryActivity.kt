@@ -1,5 +1,6 @@
 package com.argumpamungkas.moviesapps.ui.moviescategory
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,6 +12,8 @@ import com.argumpamungkas.moviesapps.databinding.ActivityMoviesCategoryBinding
 import com.argumpamungkas.moviesapps.databinding.ToolbarDetailBinding
 import com.argumpamungkas.moviesapps.model.Constant
 import com.argumpamungkas.moviesapps.model.ItemMovieModel
+import com.argumpamungkas.moviesapps.persistence.SharedPreferences
+import com.argumpamungkas.moviesapps.ui.detail.DetailMovieActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -24,42 +27,32 @@ class MoviesCategoryActivity : AppCompatActivity() {
     private lateinit var bindingToolbar: ToolbarDetailBinding
     private lateinit var adapter: AdapterListMoviesCategory
     private val viewModel: MoviesCategoryViewModel by viewModel()
+    private val movieCategory by lazy {
+        intent.getStringExtra(Constant.MOVIES_CATEGORY)
+    }
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMoviesCategoryBinding.inflate(layoutInflater)
         bindingToolbar = binding.toolbar
         setContentView(binding.root)
+        sharedPref = SharedPreferences(this)
 
         setSupportActionBar(bindingToolbar.toolbarDetail)
         supportActionBar?.apply {
             title = bindingToolbar.tvTitleToolbar.text
             setDisplayHomeAsUpEnabled(true)
         }
-        val movieCategory = intent.getStringExtra(Constant.MOVIES_CATEGORY)
         bindingToolbar.tvTitleToolbar.text = movieCategory
 
         setupRecyclerView()
-
-        when (movieCategory) {
-            getString(R.string.movie_upcoming) -> {
-                viewModel.fetchMovieUpcoming()
-            }
-            getString(R.string.movie_popular) -> {
-                viewModel.fetchMoviePopular()
-            }
-            getString(R.string.movie_top_rated) -> {
-                viewModel.fetchMovieTopRated()
-            }
-            getString(R.string.movie_now_playing) -> {
-                viewModel.fetchMovieNowPlaying()
-            }
-        }
+        fetchMovie()
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.loading.observe(this){
+        viewModel.loading.observe(this) {
             showLoading(it)
         }
 
@@ -85,10 +78,33 @@ class MoviesCategoryActivity : AppCompatActivity() {
             arrayListOf(),
             object : AdapterListMoviesCategory.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    Toast.makeText(applicationContext, item.title, Toast.LENGTH_SHORT).show()
+                    moveDetail(item.id)
                 }
             })
         binding.rvListMovieCategoryDetail.adapter = adapter
+    }
+
+    private fun fetchMovie() {
+        when (movieCategory) {
+            getString(R.string.movie_upcoming) -> {
+                viewModel.fetchMovieUpcoming()
+            }
+            getString(R.string.movie_popular) -> {
+                viewModel.fetchMoviePopular()
+            }
+            getString(R.string.movie_top_rated) -> {
+                viewModel.fetchMovieTopRated()
+            }
+            getString(R.string.movie_now_playing) -> {
+                viewModel.fetchMovieNowPlaying()
+            }
+        }
+
+    }
+
+    private fun moveDetail(movieId: Int) {
+        sharedPref.putMovieId(Constant.MOVIE_ID, movieId)
+        startActivity(Intent(this, DetailMovieActivity::class.java))
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -97,7 +113,7 @@ class MoviesCategoryActivity : AppCompatActivity() {
     }
 
     private fun showLoading(loading: Boolean) {
-        if (loading){
+        if (loading) {
             binding.loading.visibility = View.VISIBLE
         } else {
             binding.loading.visibility = View.GONE

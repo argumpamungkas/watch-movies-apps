@@ -1,5 +1,6 @@
 package com.argumpamungkas.moviesapps.ui.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,8 +12,11 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import com.argumpamungkas.moviesapps.adapter.AdapterListLinear
 import com.argumpamungkas.moviesapps.databinding.FragmentSearchBinding
+import com.argumpamungkas.moviesapps.model.Constant
 import com.argumpamungkas.moviesapps.model.ItemMovieModel
 import com.argumpamungkas.moviesapps.model.ItemMovieSearchModel
+import com.argumpamungkas.moviesapps.persistence.SharedPreferences
+import com.argumpamungkas.moviesapps.ui.detail.DetailMovieActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -24,6 +28,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel: SearchViewModel by viewModel()
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,11 +42,12 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPref = SharedPreferences(requireContext())
 
         val adapterSearch =
             AdapterListLinear(arrayListOf(), object : AdapterListLinear.OnAdapterListener {
                 override fun onClick(item: ItemMovieSearchModel) {
-                    showMessage(item.title)
+                    moveDetail(item.id)
                 }
             })
 
@@ -77,8 +83,9 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun showMessage(msg: String) {
-        Toast.makeText(view?.context, msg, Toast.LENGTH_SHORT).show()
+    private fun moveDetail(movieId: Int){
+        sharedPref.putMovieId(Constant.MOVIE_ID, movieId)
+        startActivity(Intent(requireContext(), DetailMovieActivity::class.java))
     }
 
     private fun showLoading(loading: Boolean) {

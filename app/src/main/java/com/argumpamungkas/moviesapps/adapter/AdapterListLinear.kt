@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.argumpamungkas.moviesapps.databinding.LayoutItemLinearBinding
 import com.argumpamungkas.moviesapps.model.Constant
 import com.argumpamungkas.moviesapps.model.ItemMovieSearchModel
+import com.argumpamungkas.moviesapps.util.imageFormat
 import com.argumpamungkas.moviesapps.util.shimmer
+import com.argumpamungkas.moviesapps.util.voteFormat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -40,9 +42,7 @@ class AdapterListLinear(
         holder.binding.tvTitle.text = item.title
         holder.binding.tvOverview.text = item.overview
 
-        val vote = item.vote_average
-        val itemFormat = String.format("%.1f", vote)
-        holder.binding.tvVote.text = itemFormat
+        holder.binding.tvVote.text = voteFormat(item.vote_average)
 
         val poster = Constant.POSTER_PATH + item.poster_path
         Glide.with(holder.binding.ivPoster)

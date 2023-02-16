@@ -1,5 +1,6 @@
 package com.argumpamungkas.moviesapps.network
 
+import com.argumpamungkas.moviesapps.model.ItemMovieDetailResponse
 import com.argumpamungkas.moviesapps.model.ItemMovieResponse
 import com.argumpamungkas.moviesapps.model.ItemMovieSearchResponse
 import org.koin.dsl.module
@@ -46,6 +47,13 @@ class RepositoryMovie(
         page: Int
     ): ItemMovieSearchResponse {
         return api.searchMovie(api_key, query, page)
+    }
+
+    suspend fun fetchMovieDetail(
+        movie_id: Int,
+        api_key: String
+    ): ItemMovieDetailResponse {
+        return api.getMovieDetail(movie_id, api_key)
     }
 
 }

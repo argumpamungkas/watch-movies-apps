@@ -12,8 +12,3 @@ data class ItemMovieSearchModel(
     val poster_path: String,
     val vote_average: Double
 )
-
-data class GenresMovie(
-    val id: Int,
-    val name: String
-)

@@ -6,6 +6,10 @@ import com.argumpamungkas.moviesapps.network.moduleNetwork
 import com.argumpamungkas.moviesapps.network.moduleRepository
 import com.argumpamungkas.moviesapps.ui.bookmark.moduleBookmarkFragment
 import com.argumpamungkas.moviesapps.ui.bookmark.moduleBookmarkViewModel
+import com.argumpamungkas.moviesapps.ui.detail.moduleDetailMovieActivity
+import com.argumpamungkas.moviesapps.ui.detail.moduleDetailMovieViewModel
+import com.argumpamungkas.moviesapps.ui.detail.overview.moduleOverviewFragment
+import com.argumpamungkas.moviesapps.ui.detail.overview.moduleOverviewViewModel
 import com.argumpamungkas.moviesapps.ui.home.moduleHomeFragment
 import com.argumpamungkas.moviesapps.ui.home.moduleHomeViewModel
 import com.argumpamungkas.moviesapps.ui.moduleSplashScreenActivity
@@ -36,7 +40,11 @@ class BaseApplicationMovie: Application() {
                 moduleBookmarkViewModel,
                 moduleBookmarkFragment,
                 moduleMoviesCategory,
-                moduleMoviesCategoryViewModel
+                moduleMoviesCategoryViewModel,
+                moduleDetailMovieActivity,
+                moduleDetailMovieViewModel,
+                moduleOverviewFragment,
+                moduleOverviewViewModel
             )
 
         }

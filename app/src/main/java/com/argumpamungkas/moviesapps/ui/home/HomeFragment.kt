@@ -2,6 +2,7 @@ package com.argumpamungkas.moviesapps.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,10 @@ import com.argumpamungkas.moviesapps.databinding.CustomToolbarBinding
 import com.argumpamungkas.moviesapps.databinding.FragmentHomeBinding
 import com.argumpamungkas.moviesapps.model.Constant
 import com.argumpamungkas.moviesapps.model.ItemMovieModel
+import com.argumpamungkas.moviesapps.persistence.SharedPreferences
+import com.argumpamungkas.moviesapps.ui.detail.DetailMovieActivity
+import com.argumpamungkas.moviesapps.ui.detail.overview.OverviewFragment
+import com.argumpamungkas.moviesapps.ui.detail.trailer.TrailerFragment
 import com.argumpamungkas.moviesapps.ui.moviescategory.MoviesCategoryActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
@@ -26,6 +31,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bindingToolbar: CustomToolbarBinding
     private val viewModel: HomeViewModel by viewModel()
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +48,32 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindingToolbar.tvTitleToolbar.text = viewModel.titleToolbar
+        sharedPref = SharedPreferences(requireContext())
+        Log.i("idMovie", "${sharedPref.getMovieId(Constant.MOVIE_ID)} sebelum atau sesudah")
 
+        getMovie()
+
+        viewModel.loading.observe(viewLifecycleOwner) {
+            showShimmer(it)
+        }
+
+        binding.seeAllUpcoming.setOnClickListener(this)
+        binding.seeAllPopular.setOnClickListener(this)
+        binding.seeAllTopRated.setOnClickListener(this)
+        binding.seeAllNowPlaying.setOnClickListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("idMovie", "${sharedPref.getMovieId(Constant.MOVIE_ID)} sesudah")
+    }
+
+    private fun getMovie(){
         //        Upcoming
         val adapterUpcoming =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    showMessage(item.title)
+                    moveDetail(item.id)
                 }
             })
 
@@ -60,7 +86,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val adapterPopular =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    showMessage(item.title)
+                    moveDetail(item.id)
                 }
             })
 
@@ -73,7 +99,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val adapterTopRated =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    showMessage(item.title)
+                    moveDetail(item.id)
                 }
             })
 
@@ -86,7 +112,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val adapterNowPlaying =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
-                    showMessage(item.title)
+                    moveDetail(item.id)
                 }
             })
 
@@ -94,16 +120,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         viewModel.listMovieNowPlaying.observe(viewLifecycleOwner) {
             if (it.results.isNotEmpty()) adapterNowPlaying.setItem(it.results)
         }
+    }
 
-
-        viewModel.loading.observe(viewLifecycleOwner) {
-            showShimmer(it)
-        }
-
-        binding.seeAllUpcoming.setOnClickListener(this)
-        binding.seeAllPopular.setOnClickListener(this)
-        binding.seeAllTopRated.setOnClickListener(this)
-        binding.seeAllNowPlaying.setOnClickListener(this)
+    private fun moveDetail(movieId: Int){
+        sharedPref.putMovieId(Constant.MOVIE_ID, movieId)
+        startActivity(Intent(requireContext(), DetailMovieActivity::class.java))
     }
 
     private fun showMessage(msg: String) {
