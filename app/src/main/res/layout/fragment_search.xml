@@ -8,29 +8,44 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
-        android:paddingVertical="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="30dp"
-        app:queryBackground="@android:color/transparent"
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_search"
+        android:paddingVertical="5dp"
         app:iconifiedByDefault="false"
         app:layout_constraintTop_toTopOf="parent"
+        app:queryBackground="@android:color/transparent"
         app:queryHint="Search Movie" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search_list_movie"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_view"
-        tools:listitem="@layout/layout_item_linear" />
+        app:layout_constraintBottom_toTopOf="@id/loading_more"
+        app:layout_constraintTop_toBottomOf="@id/search_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_search_list_movie"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/layout_item_linear" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <ProgressBar
         android:id="@+id/loading"
@@ -41,6 +56,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/loading_more"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

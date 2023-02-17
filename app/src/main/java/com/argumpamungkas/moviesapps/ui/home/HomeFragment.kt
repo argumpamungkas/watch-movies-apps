@@ -59,15 +59,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         binding.seeAllPopular.setOnClickListener(this)
         binding.seeAllTopRated.setOnClickListener(this)
         binding.seeAllNowPlaying.setOnClickListener(this)
-    }
 
-    override fun onResume() {
-        super.onResume()
-        Log.i("idMovie", "${sharedPref.getMovieId(Constant.MOVIE_ID)} sesudah")
     }
 
     private fun getMovie(){
-        //        Upcoming
+
         val adapterUpcoming =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
@@ -80,7 +76,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (it.results.isNotEmpty()) adapterUpcoming.setItem(it.results)
         }
 
-//        POPULAR
         val adapterPopular =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
@@ -93,7 +88,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (it.results.isNotEmpty()) adapterPopular.setItem(it.results)
         }
 
-//        TOP RATED
         val adapterTopRated =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
@@ -106,7 +100,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (it.results.isNotEmpty()) adapterTopRated.setItem(it.results)
         }
 
-//        NOW PLAYING
         val adapterNowPlaying =
             AdapterListMovie(arrayListOf(), object : AdapterListMovie.OnAdapterListener {
                 override fun onClick(item: ItemMovieModel) {
@@ -125,10 +118,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         startActivity(Intent(requireContext(), DetailMovieActivity::class.java)
             .putExtra(Constant.MOVIE_TITLE, movieTitle)
         )
-    }
-
-    private fun showMessage(msg: String) {
-        Toast.makeText(view?.context, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun showShimmer(loading: Boolean) {

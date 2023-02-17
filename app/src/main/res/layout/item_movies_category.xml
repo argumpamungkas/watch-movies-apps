@@ -14,8 +14,9 @@
 
         <ImageView
             android:id="@+id/iv_poster"
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:src="@drawable/poster"
             android:adjustViewBounds="true" />
 
@@ -23,6 +24,7 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:text="@string/title"
             android:maxLines="2"
             android:gravity="center"

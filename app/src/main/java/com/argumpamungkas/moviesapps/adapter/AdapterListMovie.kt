@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.argumpamungkas.moviesapps.databinding.LayoutItemBinding
 import com.argumpamungkas.moviesapps.model.Constant
 import com.argumpamungkas.moviesapps.model.ItemMovieModel
+import com.argumpamungkas.moviesapps.util.imageFormat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 
 class AdapterListMovie(
     private val listItem: ArrayList<ItemMovieModel>,
@@ -30,10 +33,8 @@ class AdapterListMovie(
         val item = listItem[position]
 
         holder.binding.tvTitleItem.text = item.title
-        val posterPath = Constant.POSTER_PATH + item.poster_path
-        Glide.with(holder.binding.ivPosterPortrait)
-            .load(posterPath)
-            .into(holder.binding.ivPosterPortrait)
+
+        imageFormat(item.poster_path, holder.binding.ivPosterPortrait)
 
         holder.itemView.setOnClickListener {
             listener.onClick(item)

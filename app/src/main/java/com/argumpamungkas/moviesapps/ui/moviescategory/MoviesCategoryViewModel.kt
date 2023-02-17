@@ -1,5 +1,6 @@
 package com.argumpamungkas.moviesapps.ui.moviescategory
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +16,7 @@ val moduleMoviesCategoryViewModel = module {
 }
 
 class MoviesCategoryViewModel(
-    val repositoryMovie: RepositoryMovie
+    private val repositoryMovie: RepositoryMovie
 ): ViewModel() {
 
     private val _listMovieUpcoming = MutableLiveData<ItemMovieResponse>()
@@ -30,57 +31,109 @@ class MoviesCategoryViewModel(
     private val _listMovieNowPlaying = MutableLiveData<ItemMovieResponse>()
     val listMovieNowPlaying : LiveData<ItemMovieResponse> = _listMovieNowPlaying
 
+    val isFirstLoad by lazy { MutableLiveData<Boolean>(true) }
+
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
+    private val _loadingMore = MutableLiveData<Boolean>()
+    val loadingMore: LiveData<Boolean> = _loadingMore
+
+    var page = 1
+    var totalPages = 1
+
     fun fetchMovieUpcoming(){
-        _loading.value = true
+        if (isFirstLoad.value == true){
+            _loading.value = true
+        } else {
+            _loadingMore.value = true
+        }
         viewModelScope.launch {
             try {
-                _listMovieUpcoming.value = repositoryMovie.fetchMoviesUpcoming(BuildConfig.API_KEY, 1)
+                val response = repositoryMovie.fetchMoviesUpcoming(BuildConfig.API_KEY, page)
+                _listMovieUpcoming.value = response
+                totalPages = response.total_pages
+                page++
                 _loading.value = false
+                _loadingMore.value = false
+                isFirstLoad.value = false
             }catch (e:Exception){
                 e.printStackTrace()
                 _loading.value = false
+                _loadingMore.value = false
+                isFirstLoad.value = false
             }
         }
     }
 
     fun fetchMoviePopular(){
-        _loading.value = true
+        if (isFirstLoad.value == true){
+            _loading.value = true
+        } else {
+            _loadingMore.value = true
+        }
         viewModelScope.launch {
             try {
-                _listMoviePopular.value = repositoryMovie.fetchMoviesPopular(BuildConfig.API_KEY, 1)
+                val response = repositoryMovie.fetchMoviesPopular(BuildConfig.API_KEY, page)
+                _listMoviePopular.value = response
+                totalPages = response.total_pages
+                page++
                 _loading.value = false
+                _loadingMore.value = false
+                isFirstLoad.value = false
             }catch (e:Exception){
                 e.printStackTrace()
                 _loading.value = false
+                _loadingMore.value = false
+                isFirstLoad.value = false
             }
         }
     }
 
     fun fetchMovieTopRated(){
-        _loading.value = true
+        if (isFirstLoad.value == true){
+            _loading.value = true
+        } else {
+            _loadingMore.value = true
+        }
         viewModelScope.launch {
             try {
-                _listMovieTopRated.value = repositoryMovie.fetchMoviesTopRated(BuildConfig.API_KEY, 1)
+                val response = repositoryMovie.fetchMoviesTopRated(BuildConfig.API_KEY, page)
+                _listMovieTopRated.value = response
+                totalPages = response.total_pages
+                page++
                 _loading.value = false
+                _loadingMore.value = false
+                isFirstLoad.value = false
             }catch (e:Exception){
                 e.printStackTrace()
                 _loading.value = false
+                _loadingMore.value = false
+                isFirstLoad.value = false
             }
         }
     }
 
     fun fetchMovieNowPlaying(){
-        _loading.value = true
+        if (isFirstLoad.value == true){
+            _loading.value = true
+        } else {
+            _loadingMore.value = true
+        }
         viewModelScope.launch {
             try {
-                _listMovieNowPlaying.value = repositoryMovie.fetchMoviesNowPlaying(BuildConfig.API_KEY, 1)
+                val response = repositoryMovie.fetchMoviesNowPlaying(BuildConfig.API_KEY, page)
+                _listMovieNowPlaying.value = response
+                totalPages = response.total_pages
+                page++
                 _loading.value = false
+                _loadingMore.value = false
+                isFirstLoad.value = false
             }catch (e:Exception){
                 e.printStackTrace()
                 _loading.value = false
+                _loadingMore.value = false
+                isFirstLoad.value = false
             }
         }
     }

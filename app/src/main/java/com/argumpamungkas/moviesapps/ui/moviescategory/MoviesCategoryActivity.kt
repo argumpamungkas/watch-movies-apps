@@ -2,10 +2,9 @@ package com.argumpamungkas.moviesapps.ui.moviescategory
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import com.argumpamungkas.moviesapps.R
 import com.argumpamungkas.moviesapps.adapter.AdapterListMoviesCategory
 import com.argumpamungkas.moviesapps.databinding.ActivityMoviesCategoryBinding
@@ -47,6 +46,7 @@ class MoviesCategoryActivity : AppCompatActivity() {
         bindingToolbar.tvTitleToolbar.text = movieCategory
 
         setupRecyclerView()
+        binding.nestedScrollView.scrollTo(0,0)
         fetchMovie()
     }
 
@@ -56,21 +56,20 @@ class MoviesCategoryActivity : AppCompatActivity() {
             showLoading(it)
         }
 
-        viewModel.listMovieUpcoming.observe(this) {
-            if (it.results.isNotEmpty()) adapter.setItemMovie(it.results)
+        viewModel.loadingMore.observe(this){
+            showLoadingMore(it)
         }
 
-        viewModel.listMoviePopular.observe(this) {
-            if (it.results.isNotEmpty()) adapter.setItemMovie(it.results)
+        observeMovie()
+
+        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, _, scrollY, _, _ ->
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                if (viewModel.page <= viewModel.totalPages && viewModel.loadingMore.value == false) {
+                    fetchMovie()
+                }
+            }
         }
 
-        viewModel.listMovieTopRated.observe(this) {
-            if (it.results.isNotEmpty()) adapter.setItemMovie(it.results)
-        }
-
-        viewModel.listMovieNowPlaying.observe(this) {
-            if (it.results.isNotEmpty()) adapter.setItemMovie(it.results)
-        }
     }
 
     private fun setupRecyclerView() {
@@ -99,13 +98,62 @@ class MoviesCategoryActivity : AppCompatActivity() {
                 viewModel.fetchMovieNowPlaying()
             }
         }
+    }
 
+    private fun observeMovie() {
+        when (movieCategory) {
+            getString(R.string.movie_upcoming) -> {
+                viewModel.listMovieUpcoming.observe(this) {
+                    if (it.results.isNotEmpty()) {
+                        if (viewModel.isFirstLoad.value == true){
+                            adapter.setItemMovie(it.results)
+                        } else {
+                            adapter.setAddMovie(it.results)
+                        }
+                    }
+                }
+            }
+            getString(R.string.movie_popular) -> {
+                viewModel.listMoviePopular.observe(this) {
+                    if (it.results.isNotEmpty()) {
+                        if (viewModel.isFirstLoad.value == true){
+                            adapter.setItemMovie(it.results)
+                        } else {
+                            adapter.setAddMovie(it.results)
+                        }
+                    }
+                }
+            }
+            getString(R.string.movie_top_rated) -> {
+                viewModel.listMovieTopRated.observe(this) {
+                    if (it.results.isNotEmpty()) {
+                        if (viewModel.isFirstLoad.value == true){
+                            adapter.setItemMovie(it.results)
+                        } else {
+                            adapter.setAddMovie(it.results)
+                        }
+                    }
+                }
+            }
+            getString(R.string.movie_now_playing) -> {
+                viewModel.listMovieNowPlaying.observe(this) {
+                    if (it.results.isNotEmpty()) {
+                        if (viewModel.isFirstLoad.value == true){
+                            adapter.setItemMovie(it.results)
+                        } else {
+                            adapter.setAddMovie(it.results)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun moveDetail(movieId: Int, movieTitle: String) {
         sharedPref.putMovieId(Constant.MOVIE_ID, movieId)
-        startActivity(Intent(this, DetailMovieActivity::class.java)
-            .putExtra(Constant.MOVIE_TITLE, movieTitle)
+        startActivity(
+            Intent(this, DetailMovieActivity::class.java)
+                .putExtra(Constant.MOVIE_TITLE, movieTitle)
         )
     }
 
@@ -119,6 +167,14 @@ class MoviesCategoryActivity : AppCompatActivity() {
             binding.loading.visibility = View.VISIBLE
         } else {
             binding.loading.visibility = View.GONE
+        }
+    }
+
+    private fun showLoadingMore(loading: Boolean) {
+        if (loading) {
+            binding.loadingMore.visibility = View.VISIBLE
+        } else {
+            binding.loadingMore.visibility = View.GONE
         }
     }
 }

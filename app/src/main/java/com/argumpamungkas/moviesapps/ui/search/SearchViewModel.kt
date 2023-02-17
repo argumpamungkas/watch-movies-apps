@@ -19,24 +19,48 @@ class SearchViewModel(
     private val repositoryMovie: RepositoryMovie
 ) : ViewModel() {
 
-    private val _listUser = MutableLiveData<ItemMovieSearchResponse>()
-    val listUser : LiveData<ItemMovieSearchResponse> = _listUser
+    private val _listMovie = MutableLiveData<ItemMovieSearchResponse>()
+    val listMovie: LiveData<ItemMovieSearchResponse> = _listMovie
 
     private val _message = MutableLiveData<String>()
-    val message : LiveData<String> = _message
+    val message: LiveData<String> = _message
 
     private val _loading = MutableLiveData<Boolean>()
-    val loading : LiveData<Boolean> = _loading
+    val loading: LiveData<Boolean> = _loading
 
-    fun fetchSearchMovie(query: String){
-        _loading.value = true
+    private val _loadingMore = MutableLiveData<Boolean>()
+    val loadingMore: LiveData<Boolean> = _loadingMore
+
+    var pageMovie = 1
+    var totalPages = 1
+
+    fun fetchSearchMovie(query: String, page: Int, firstLoad: Boolean) {
+        if (!firstLoad) {
+            fetchMovie(query, pageMovie)
+        } else {
+            pageMovie = 1
+            fetchMovie(query, page)
+        }
+    }
+
+    private fun fetchMovie(query: String, currentPage: Int) {
+        if (currentPage == 1) {
+            _loading.value = true
+        } else {
+            _loadingMore.value = true
+        }
         viewModelScope.launch {
             try {
-                _listUser.value = repositoryMovie.fetchSearchMovie(BuildConfig.API_KEY, query, 1)
+                val response =
+                    repositoryMovie.fetchSearchMovie(BuildConfig.API_KEY, query, currentPage)
+                _listMovie.value = response
+                totalPages = response.total_pages
+                pageMovie++
                 _loading.value = false
-            }catch (e:Exception){
+                _loadingMore.value = false
+            } catch (e: Exception) {
                 _message.value = "${e.message}"
-                _loading.value = false
+                _loadingMore.value = false
             }
         }
     }
